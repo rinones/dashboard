@@ -1,0 +1,15 @@
+{
+  "links": [
+    {
+      "title": "Google",
+      "url": "https://google.com",
+      "desc": "Buscador principal"
+    }
+  ],
+  "embeds": [
+    {
+      "title": "Video de ejemplo",
+      "src": "https://www.youtube-nocookie.com/embed/dQw4w9WgXcQ"
+    }
+  ]
+}
