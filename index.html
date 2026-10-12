@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hub de Contenido</title>
+  <style>
+    :root { --bg: #0f172a; --card: #1e293b; --text: #f8fafc; --accent: #38bdf8; }
+    body { font-family: system-ui, sans-serif; background: var(--bg); color: var(--text); max-width: 800px; margin: 0 auto; padding: 2rem 1rem; }
+    h1, h2 { color: var(--accent); }
+    .grid { display: grid; gap: 1rem; margin-bottom: 2.5rem; }
+    .card { background: var(--card); padding: 1rem; border-radius: 8px; border: 1px solid #334155; }
+    a { color: var(--accent); font-weight: 600; text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    .iframe-wrapper { position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; border-radius: 8px; margin-top: 0.5rem; }
+    .iframe-wrapper iframe { position: absolute; top:0; left: 0; width: 100%; height: 100%; border: 0; }
+  </style>
+</head>
+<body>
+  <h1>Recursos & Enlaces</h1>
+  
+  <h2>Enlaces</h2>
+  <div id="links-container" class="grid"></div>
+
+  <h2>Contenido Incrustado</h2>
+  <div id="embeds-container" class="grid"></div>
+
+  <script>
+    fetch('content.json')
+      .then(res => res.json())
+      .then(data => {
+        const linksHtml = (data.links || []).map(item => `
+          <div class="card">
+            <a href="${item.url}" target="_blank" rel="noopener noreferrer">${item.title}</a>
+            <p style="margin: 0.5rem 0 0 0; color: #94a3b8;">${item.desc || ''}</p>
+          </div>
+        `).join('');
+        document.getElementById('links-container').innerHTML = linksHtml;
+
+        const embedsHtml = (data.embeds || []).map(item => `
+          <div class="card">
+            <strong>${item.title}</strong>
+            <div class="iframe-wrapper">
+              <iframe src="${item.src}" allowfullscreen loading="lazy"></iframe>
+            </div>
+          </div>
+        `).join('');
+        document.getElementById('embeds-container').innerHTML = embedsHtml;
+      })
+      .catch(err => console.error('Error cargando datos:', err));
+  </script>
+</body>
+</html>
